@@ -1,23 +1,21 @@
-// server.js
-import express from 'express';
-import cors from 'cors';
-import clientesRoutes from './routes/clientes.js'; // 👈 con .js
-import './db.js'; // solo para que se ejecute la conexión
+const express = require('express');
+const cors = require('cors');
+const clientesRoutes = require('./routes/clientes');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de prueba
-app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: 'API KAIROX Backend funcionando con PostgreSQL' });
-});
-
-// Rutas de clientes
+// Rutas
 app.use('/api/clientes', clientesRoutes);
 
+// Ruta por defecto
+app.get('/', (req, res) => {
+  res.send('API Kairox funcionando');
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+  console.log(`Servidor ejecutándose en puerto ${PORT}`);
 });
